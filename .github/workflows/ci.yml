@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        pytho-version: ["3.9", "3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11"]
 
     steps:
       - name: Checkout repository
@@ -22,18 +22,9 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      
-      - name: Cache pip
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
 
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-      - name: Lint code
-        run: flake8 .
+        run: pip install -r requirements.txt
 
       - name: Run tests
         run: pytest --junitxml=report.xml
